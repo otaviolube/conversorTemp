@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Temperatura</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: antiquewhite;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        form > fieldset {
+            margin-bottom: 10px;
+            border: none;
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        input[type='number'] {
+            height: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: blue;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        input[type='number']::placeholder {
+            color: lightcoral;
+            text-align: center;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        input[type='range']{
+            margin-bottom: 30px;
+        }
+
+        section#valores{
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-evenly;
+            margin-top: 30px;
+        }
+
+        section div{
+            border: 1px solid black;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: lightcyan;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="#">
+
+        <fieldset>
+            <input type="radio" name="escala" id="celsius" value="celsius" checked>
+            <label for="celsius">ºC</label>
+            <input type="radio" name="escala" id="farenheit" value="farenheit">
+            <label for="farenheit">ºF</label>
+            <input type="radio" name="escala" id="kelvin" value="kelvin">
+            <label for="kelvin">K</label>
+        </fieldset>
+
+        <input id="temperatura" type="number" placeholder="Digite a temperatura">
+
+        <input id="temp2" type="range">
+
+        <input type="button" value="Converter" onclick="converterTemperaturas()">
+    </form>
+
+    <section id="valores">
+        <div id="valor_celsius">
+            <h5>Celsius</h5>
+        </div>
+        <div id="valor_farenheit">
+            <h5>Farenheit</h5>
+        </div>
+        <div id="valor_kelvin">
+            <h5>Kelvin</h5>
+        </div>
+    </section>
+
+
+    <script>
+        function converterTemperaturas(){
+            var temperatura = document.getElementById('temperatura').value
+            if(temperatura == ''){
+                alert('Você precisa digitar uma temperatura!');
+                return;
+            }
+
+            var escalas = document.getElementsByName('escala');
+
+            if(escalas[0].checked){
+                //A temperatura que eu escolhi foi Celsius
+                var temp_celsius = parseFloat(temperatura);
+                var temp_farenheit = 1.8*temp_celsius + 32;
+                var temp_kelvin = temp_celsius + 273;
+            }else if(escalas[1].checked){
+                //A temperatura que eu escolhi foi Farenheit
+                var temp_farenheit = parseFloat(temperatura);
+                var temp_celsius = (temp_farenheit - 32)/1.8;
+                var temp_kelvin = temp_celsius + 273;
+            }else if(escalas[2].checked){
+                //A temperatura que eu escolhi foi Kelvin
+                var temp_kelvin = parseFloat(temperatura);
+                var temp_celsius = temp_kelvin - 273;
+                var temp_farenheit = 1.8*temp_celsius + 32;
+            }
+
+            document.getElementById('valor_celsius').innerText = temp_celsius;
+            document.getElementById('valor_farenheit').innerText = temp_farenheit;
+            document.getElementById('valor_kelvin').innerText = temp_kelvin;
+
+            if(temp_celsius < 0){
+                document.getElementsByTagName('body')[0].style.backgroundColor = 'blue';
+            }else if(temp_celsius >= 0 && temp_celsius <= 30){
+                document.getElementsByTagName('body')[0].style.backgroundColor = 'orange';
+            }else{
+                document.getElementsByTagName('body')[0].style.backgroundColor = 'red';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
